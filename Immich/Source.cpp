@@ -107,8 +107,7 @@ int main() {
         exitCode = 1;
     }
 
-    // Docker Compose se ejecuta desde el directorio que contiene la
-    // configuración del despliegue de Immich.
+    // Docker Compose hereda el directorio desde el que se ejecuto este programa.
     char dockerName[] = "docker";
     char composeCommand[] = "compose";
     char pullCommand[] = "pull";
@@ -117,10 +116,10 @@ int main() {
     char detachedOption[] = "-d";
     char* composeUp[] = {dockerName, composeCommand, upCommand, detachedOption, NULL};
 
-    if (runCommand(log, "docker compose pull", "docker", composePull, "/Immich") != 0) {
+    if (runCommand(log, "docker compose pull", "docker", composePull, NULL) != 0) {
         exitCode = 1;
         logMessage(log, "ERROR", "Se omite docker compose up -d porque pull fallo.");
-    } else if (runCommand(log, "docker compose up -d", "docker", composeUp, "/Immich") != 0) {
+    } else if (runCommand(log, "docker compose up -d", "docker", composeUp, NULL) != 0) {
         exitCode = 1;
     }
 
