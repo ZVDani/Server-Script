@@ -21,7 +21,8 @@ void logMessage(FILE* log, const char* level, const char* message) {
     fflush(output);
 }
 
-// Ejecuta "sudo apt <operación>" en un proceso hijo y espera su resultado.
+// Ejecuta "apt <operación>" en un proceso hijo y espera su resultado.
+// El programa debe ejecutarse como root para que apt tenga permisos.
 // Devuelve el código de salida del comando, o -1 si hubo un error al crearlo
 // o esperarlo.
 int runAptCommand(const char* operation) {
@@ -33,8 +34,8 @@ int runAptCommand(const char* operation) {
     }
 
     if (child == 0) {
-        execlp("sudo", "sudo", "apt", operation, (char*)NULL);
-        perror("exec sudo");
+        execlp("apt", "apt", operation, "-y", (char*)NULL);
+        perror("exec apt");
         _exit(127);
     }
 
